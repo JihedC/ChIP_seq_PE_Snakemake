@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: continuumio/miniconda3:4.8.2
+From: continuumio/miniconda3:4.7.11
 %labels
 AUTHOR jihed.chouaref@gmail.com
 
