@@ -17,14 +17,14 @@ PATH=/opt/conda/bin:$PATH
 conda config --add channels defaults
 conda config --add channels conda-forge
 conda config --add channels bioconda
-conda install --yes centrifuge=1.0.3
-conda install --yes krona=2.7.1
+#conda install --yes centrifuge=1.0.3
+#conda install --yes krona=2.7.1
 conda install --yes deeptools=3.5.0
-conda install --yes fastqc=0.11.9
-conda install --yes macs2=2.2.7.1
+#conda install --yes fastqc=0.11.9
+#conda install --yes macs2=2.2.7.1
 conda install --yes multiqc=1.9
 conda install --yes picard=2.23.4
-conda install --yes r-base=3.6.1
+#conda install --yes r-base=3.6.1
 conda install --yes cutadapt=2.10
 conda install --yes trim-galore=0.6.6
 conda install --yes bowtie2=2.4.1
