@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH --job-name=seqtk
+#SBATCH --time=24:00:00 # hh:mm:ss
+#
+#SBATCH --ntasks=1
+#SBATCH --mem-per-cpu=40000 # 40G
+#SBATCH --mail-user=j.chouaref@lumc.nl
+#SBATCH --mail-type=ALL
+#
+#SBATCH --comment=Devepi
+
+FASTQ="/exports/humgen/jihed/H3K9me3"
+OUTPUT="/exports/humgen/jihed/H3K9me3"
+
+for file in $FASTQ/*.fastq.gz;
+  do
+    name=`basename -s '.fastq.gz' $file`
+    seqtk sample -s100 $file 5000 > $OUTPUT/$name'.fq'
+  done

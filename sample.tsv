@@ -1,0 +1,6 @@
+sampleID	condition	type	R1	R2
+WT_1	WT	mESC	/exports/humgen/jihed/H3K9me3/JC_2_1.fq	/exports/humgen/jihed/H3K9me3/JC_2_2.fq
+WT_2	WT	mESC	/exports/humgen/jihed/H3K9me3/JC_4_1_1.fq	/exports/humgen/jihed/H3K9me3/JC_4_1_2.fq
+KO_1	KO	mESC	/exports/humgen/jihed/H3K9me3/JC_12_1.fq	/exports/humgen/jihed/H3K9me3/JC_12_2.fq
+KO_2	KO	mESC	/exports/humgen/jihed/H3K9me3/JC_4_7_1.fq	/exports/humgen/jihed/H3K9me3/JC_4_7_2.fq
+INP	INP	mESC	/exports/humgen/jihed/H3K9me3/JC_inp2_1.fq	/exports/humgen/jihed/H3K9me3/JC_inp2_2.fq
