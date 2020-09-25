@@ -15,24 +15,58 @@ WORKING_DIR         = config["working_dir"]    # where you want to store your in
 RESULT_DIR          = config["result_dir"]      # what you want to keep
 
 
+GENOME_FASTA_URL    = config["refs"]["genome_url"]
+GENOME_FASTA_FILE   = os.path.basename(config["refs"]["genome_url"])
+GFF_URL             = config["refs"]["gff_url"]
+GFF_FILE            = os.path.basename(config["refs"]["gff_url"])
+
+################## Helper functions ##################
+
+def get_fastq(wildcards):
+    return units.loc[(wildcards.sample), ["fq1", "fq2"]].dropna()
+
+def get_samples_per_treatment(input_df="units.tsv",colsamples="sample",coltreatment="condition",treatment="control"):
+    """This function returns a list of samples that correspond to the same experimental condition"""
+    df = pd.read_table(input_df)
+    df = df.loc[df[coltreatment] == treatment]
+    filtered_samples = df[colsamples].tolist()
+    return filtered_samples
+
 ################## Definition of Samples ##################
 
-tableSamples = pd.read_table(config["samples"],sep="\t",index_col=0)
-samples=tableSamples.index
-conditions = tableSamples.condition
-conditionsUnique=set(conditions)
+units = pd.read_table(config["units"], dtype=str).set_index(["sample"], drop=False)
+
+SAMPLES = units.index.get_level_values('sample').unique().tolist()
+
+CASES = get_samples_per_treatment(treatment="treatment")
+CONTROLS = get_samples_per_treatment(treatment="control")
+
+GROUPS = {
+    "group1" : ["ChIP1", "ChIP2", "ChIP3", "ChIP4"],
+    "group2" : ["ChIP5"]
+}
+#I used this dictionnary to define the group of sample used in the multiBamSummary, might be improved a lot
+
 
 ################## CONTAINER ##################
 
-#singularity :
+singularity :shub://JihedC/ChIP_seq_PE_Snakemake
+
+
+################## DESIRED OUTPUT ##################
+
+SORTED  =     expand(RESULT_DIR + "mapped/{sample}.sorted.rmdup.bam", sample=SAMPLES)
 
 
 ################## RULE ALL ##################
 
 rule all:
     input:
+        SORTED
         ""
     message : "Analysis is complete!"
+    shell:""
+
 
 ################## INCLUDE RULES ##################
 
