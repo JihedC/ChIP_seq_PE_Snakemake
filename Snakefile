@@ -62,8 +62,8 @@ SORTED  =     expand(RESULT_DIR + "mapped/{sample}.sorted.rmdup.bam", sample=SAM
 
 rule all:
     input:
-        SORTED
-        ""
+        SORTED,
+
     message : "Analysis is complete!"
     shell:""
 
@@ -71,8 +71,7 @@ rule all:
 ################## INCLUDE RULES ##################
 
 
-include: "rules/retrieveData.smk"
-include: "rules/retrieveGenomaData.smk"
+include: "rules/external_data.smk"
 include: "rules/preprocess.smk"
 include: "rules/mapping.smk"
 include: "rules/QC.smk"
