@@ -1,6 +1,6 @@
-sampleID	condition	type	R1  R2
-WT_1	WT	mESC	example_datasets/JC_2_1.fq.gz	example_datasets/JC_2_2.fq.gz
-WT_2	WT	mESC	example_datasets/JC_4_1_1.fq.gz	example_datasets/JC_4_1_2.fq.gz
-KO_1	KO	mESC	example_datasets/JC_12_1.fq.gz	example_datasets/JC_12_2.fq.gz
-KO_2	KO	mESC	example_datasets/JC_4_7_1.fq.gz	example_datasets/JC_4_7_2.fq.gz
-INP	INP	mESC	example_datasets/JC_inp2_1.fq.gz	example_datasets/JC_inp2_2.fq.gz
+sample  fq1  fq2  condition
+ChIP1 example_datasets/JC_2_1.fq.gz example_datasets/JC_2_2.fq.gz treatment
+ChIP2 example_datasets/JC_4_1_1.fq.gz example_datasets/JC_4_1_2.fq.gz treatment
+ChIP3	example_datasets/JC_12_1.fq.gz  example_datasets/JC_12_2.fq.gz  treatment
+ChIP4	example_datasets/JC_4_7_1.fq.gz example_datasets/JC_4_7_2.fq.gz treatment
+ChIP5	example_datasets/JC_inp2_1.fq.gz  example_datasets/JC_inp2_1.fq.gz  control
