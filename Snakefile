@@ -50,7 +50,7 @@ GROUPS = {
 
 ################## CONTAINER ##################
 
-singularity :shub://JihedC/ChIP_seq_PE_Snakemake
+singularity : "shub://JihedC/ChIP_seq_PE_Snakemake"
 
 
 ################## DESIRED OUTPUT ##################
@@ -73,7 +73,3 @@ rule all:
 
 include: "rules/external_data.smk"
 include: "rules/preprocess.smk"
-include: "rules/mapping.smk"
-include: "rules/QC.smk"
-include: "rules/centrifuge.smk"
-include: "rules/callPeaks.smk"

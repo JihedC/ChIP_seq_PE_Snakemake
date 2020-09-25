@@ -3,10 +3,10 @@ rule trimmomatic:
         reads = get_fastq,
         adapters = config["trimmomatic"]["adapters"]
     output:
-        forward_reads   = WORKING_DIR + "trimmed/{sample}_forward.fastq.gz",
-        reverse_reads   = WORKING_DIR + "trimmed/{sample}_reverse.fastq.gz",
-        forwardUnpaired = temp(WORKING_DIR + "trimmed/{sample}_forward_unpaired.fastq.gz"),
-        reverseUnpaired = temp(WORKING_DIR + "trimmed/{sample}_reverse_unpaired.fastq.gz")
+        r1_reads   = WORKING_DIR + "trimmed/{sample}_r1.fastq.gz",
+        r2_reads   = WORKING_DIR + "trimmed/{sample}_r2.fastq.gz",
+        r1Unpaired = temp(WORKING_DIR + "trimmed/{sample}_r1_unpaired.fastq.gz"),
+        r2Unpaired = temp(WORKING_DIR + "trimmed/{sample}_r2_unpaired.fastq.gz")
     message: "trimming {wildcards.sample} reads"
     log:
         RESULT_DIR + "logs/trimmomatic/{sample}.log"
@@ -26,10 +26,10 @@ rule trimmomatic:
     shell:
         "trimmomatic PE {params.phred} -threads {threads} "
         "{input.reads} "
-        "{output.forward_reads} "
-        "{output.forwardUnpaired} "
-        "{output.reverse_reads} "
-        "{output.reverseUnpaired} "
+        "{output.r1_reads} "
+        "{output.r1Unpaired} "
+        "{output.r2_reads} "
+        "{output.r2Unpaired} "
         "ILLUMINACLIP:{input.adapters}:{params.seedMisMatches}:{params.palindromeClipTreshold}:{params.simpleClipThreshhold} "
         "LEADING:{params.LeadMinTrimQual} "
         "TRAILING:{params.TrailMinTrimQual} "
@@ -38,8 +38,8 @@ rule trimmomatic:
 
 rule fastqc:
     input:
-        fwd = WORKING_DIR + "trimmed/{sample}_forward.fastq.gz",
-        rev = WORKING_DIR + "trimmed/{sample}_reverse.fastq.gz"
+        fwd = WORKING_DIR + "trimmed/{sample}_r1.fastq.gz",
+        rev = WORKING_DIR + "trimmed/{sample}_r2.fastq.gz"
     output:
         RESULT_DIR + "fastqc/{sample}.html"
     log:
@@ -71,10 +71,10 @@ rule index:
 
 rule align:
     input:
-        forward         = WORKING_DIR + "trimmed/{sample}_forward.fastq.gz",
-        reverse         = WORKING_DIR + "trimmed/{sample}_reverse.fastq.gz",
-        forwardUnpaired = WORKING_DIR + "trimmed/{sample}_forward_unpaired.fastq.gz",
-        reverseUnpaired = WORKING_DIR + "trimmed/{sample}_reverse_unpaired.fastq.gz",
+        r1         = WORKING_DIR + "trimmed/{sample}_r1.fastq.gz",
+        r2         = WORKING_DIR + "trimmed/{sample}_r2.fastq.gz",
+        r1Unpaired = WORKING_DIR + "trimmed/{sample}_r1_unpaired.fastq.gz",
+        r2Unpaired = WORKING_DIR + "trimmed/{sample}_r2_unpaired.fastq.gz",
         index           = [WORKING_DIR + "genome." + str(i) + ".bt2" for i in range(1,5)]
     output:
         mapped          = WORKING_DIR + "mapped/{sample}.bam",
@@ -91,9 +91,8 @@ rule align:
         RESULT_DIR + "logs/bowtie/{sample}.log"
     shell:
         """
-        bowtie2 {params.bowtie} --threads {threads} -x {params.index} -1 {input.forward} -2 {input.reverse} -U {input.forwardUnpaired},{input.reverseUnpaired} --un-conc-gz {params.unmapped} | samtools view -Sb - > {output.mapped} 2>{log}
+        bowtie2 {params.bowtie} --threads {threads} -x {params.index} -1 {input.r1} -2 {input.r2} -U {input.r1Unpaired},{input.r2Unpaired} --un-conc-gz {params.unmapped} | samtools view -Sb - > {output.mapped} 2>{log}
         """
-
 
 rule sort:
     input:
